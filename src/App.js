@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-function App() {
-  return (
-    <div>
-      
-    </div>
-  );
+import Layout from './hoc/Layout/Layout';
+import Home from './containers/Home/Home';
+import SignIn from './containers/Auth/SignIn';
+import SignUp from './containers/Auth/SignUp';
+import { PublicRoute, PrivateRoute } from './helpers/Route';
+class App extends Component {
+  render() {
+    return (
+      <Layout>
+        <PrivateRoute exact path={`/home/:type`} component={Home} />
+        <PublicRoute exact path={'/signin'} component={SignIn} />
+        <PublicRoute exact path={'/signup'} component={SignUp} />
+      </Layout>
+    );
+  }
 }
 
 export default App;
