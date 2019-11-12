@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
+import React, { Component } from "react";
+import styled from "styled-components";
+import { Formik, Form, Field } from "formik";
+import * as Yup from "yup";
 
-import ListItem from './ListItem/ListItem';
-import Input from '../../UI/Input/Input';
-import AddButton from '../../UI/Button/AddButton';
-
-import MockData from '../../../utils/MockData';
+import ListItem from "./ListItem/ListItem";
+import Input from "../../UI/Input/Input";
+import AddButton from "../../UI/Button/AddButton";
 
 const Wrapper = styled.div`
   grid-column: 1 / -1;
@@ -19,44 +19,29 @@ const Wrapper = styled.div`
   font-size: 2rem;
 `;
 
-const Form = styled.form`
+const FormStyled = styled(Form)`
   display: flex;
 `;
-
-const _getDataAfterFilter = type => {
-  switch (type) {
-    case 'finished':
-      return MockData.filter(task => task.isFinish);
-    case 'unfinished':
-      return MockData.filter(task => !task.isFinish);
-    case 'importance':
-      return MockData.filter(task => task.isImportance);
-    default:
-      return MockData;
-  }
-};
-
-const _sortData = Data => {
-  return Data.reverse().sort(function(a, b) {
-    if (a.isFinish > b.isFinish) {
-      return 1;
-    }
-    if (b.isFinish > a.isFinish) {
-      return -1;
-    }
-    return 0;
-  });
-};
-
 export default class ListItems extends Component {
+  todoSchema = Yup.object().shape({
+    text: Yup.string()
+      .required("Task name is required.")
+      .min(6, "Too short.")
+      .max(100, "Too long.")
+  });
+
+  _handleSubmit = value => {
+    this.setState({ text: value.text });
+    // console.log(value);
+    console.log(this.state);
+  };
+
   render() {
-    const { type } = this.props;
-    const Data = _getDataAfterFilter(type);
-    const DataAfterSort = _sortData(Data);
+    const { todos } = this.props;
 
     return (
       <Wrapper>
-        {DataAfterSort.map(item => (
+        {todos.map(item => (
           <ListItem
             key={item._id}
             isFinish={item.isFinish}
@@ -65,10 +50,17 @@ export default class ListItems extends Component {
             {item.text}
           </ListItem>
         ))}
-        <Form>
-          <Input placeholder="Add task" type="text" />
-          <AddButton type="submit">+</AddButton>
-        </Form>
+        <Formik
+          initialValues={{ text: "" }}
+          validationSchema={this.todoSchema}
+          onSubmit={this._handleSubmit}
+        ></Formik>
+        {({ isSubmitting, isValid }) => (
+          <FormStyled>
+            <Field placeholder="Add task" type="text" component={Input} />
+            <AddButton type="submit">+</AddButton>
+          </FormStyled>
+        )}
       </Wrapper>
     );
   }

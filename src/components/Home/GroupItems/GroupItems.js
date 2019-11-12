@@ -1,8 +1,6 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
-
-import MockData from '../../../utils/MockData';
+import React, { Component } from "react";
+import styled from "styled-components";
+import { NavLink } from "react-router-dom";
 
 const Ul = styled.ul`
   display: grid;
@@ -91,20 +89,12 @@ const Badge = styled.span`
 `;
 
 const activeStyled = {
-  border: '2px solid var(--color-green)'
-};
-
-const _getCountTasks = () => {
-  const all = MockData.length;
-  const importance = MockData.filter(task => task.isImportance).length;
-  const finished = MockData.filter(task => task.isFinish).length;
-  const unFinish = MockData.filter(task => !task.isFinish).length;
-  return { all, importance, finished, unFinish };
+  border: "2px solid var(--color-green)"
 };
 
 export default class Menu extends Component {
   render() {
-    const count = _getCountTasks();
+    const { all, importance, finished, unFinish } = this.props.count;
     return (
       <div>
         <Ul>
@@ -112,7 +102,7 @@ export default class Menu extends Component {
             <NavLinkStyled exact to="/home/all" activeStyle={activeStyled}>
               <Head>
                 <H1>All task</H1>
-                <Badge>{count.all}</Badge>
+                <Badge>{all}</Badge>
               </Head>
             </NavLinkStyled>
           </Li>
@@ -124,7 +114,7 @@ export default class Menu extends Component {
             >
               <Head>
                 <H1>Importance</H1>
-                <Badge>{count.importance}</Badge>
+                <Badge>{importance}</Badge>
               </Head>
             </NavLinkStyled>
           </Li>
@@ -132,7 +122,7 @@ export default class Menu extends Component {
             <NavLinkStyled exact to="/home/finished" activeStyle={activeStyled}>
               <Head>
                 <H1>Finished</H1>
-                <Badge>{count.finished}</Badge>
+                <Badge>{finished}</Badge>
               </Head>
             </NavLinkStyled>
           </Li>
@@ -144,7 +134,7 @@ export default class Menu extends Component {
             >
               <Head>
                 <H1>Unfinished</H1>
-                <Badge>{count.unFinish}</Badge>
+                <Badge>{unFinish}</Badge>
               </Head>
             </NavLinkStyled>
           </Li>

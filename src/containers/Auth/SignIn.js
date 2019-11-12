@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import React, { Component } from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { Formik, Form, Field } from "formik";
+import * as Yup from "yup";
 
-import Input from '../../components/UI/Input/Input';
-import Button from '../../components/UI/Button/Button';
+import Button from "../../components/UI/Button/Button";
+import Input from "../../components/UI/Input/Input";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -14,7 +16,7 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const Form = styled.form`
+const StyledForm = styled(Form)`
   width: 50%;
   display: flex;
   flex-direction: column;
@@ -62,7 +64,7 @@ const Other = styled.div`
 class SignIn extends Component {
   _handleChange = event => {
     const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
 
     this.setState({
@@ -71,40 +73,57 @@ class SignIn extends Component {
     console.log(event.target.value);
   };
 
-  _handleSubmit = event => {
-    event.preventDefault();
+  _handleSubmit = value => {
+    this.setState({ email: value.email, password: value.password });
+    // console.log(value);
     console.log(this.state);
   };
+
+  loginSchema = Yup.object().shape({
+    email: Yup.string()
+      .email("Invalid email.")
+      .required("The email is required."),
+    password: Yup.string()
+      .required("Password is required.")
+      .min(6, "Too short.")
+      .max(20, "Too long.")
+  });
 
   render() {
     return (
       <Wrapper>
-        <Form onSubmit={this._handleSubmit}>
-          <H1>Log in</H1>
-          <Input
-            placeholder="Email"
-            size="small"
-            type="email"
-            name="email"
-            _handleChange={this._handleChange}
-          />
-          <Input
-            placeholder="Password"
-            size="small"
-            type="password"
-            name="password"
-            _handleChange={this._handleChange}
-          />
-          <Button type="submit">Sign in</Button>
-          <Other>
-            <h3>
-              <span>Or</span>
-            </h3>
-            <Link to="/signup">
-              <p>Sign up</p>
-            </Link>
-          </Other>
-        </Form>
+        <Formik
+          initialValues={{ email: "", password: "" }}
+          validationSchema={this.loginSchema}
+          onSubmit={this._handleSubmit}
+        >
+          {({ isSubmitting, isValid }) => (
+            <StyledForm>
+              <H1>Log in</H1>
+              <Field
+                type="email"
+                name="email"
+                placeholder="Your email..."
+                component={Input}
+              />
+              <Field
+                type="password"
+                name="password"
+                placeholder="Your password..."
+                component={Input}
+              />
+              <Button type="submit">Sign in</Button>
+              <Other>
+                <h3>
+                  <span>Or</span>
+                </h3>
+                <Link to="/signup">
+                  <p>Sign up</p>
+                </Link>
+              </Other>
+            </StyledForm>
+          )}
+        </Formik>
       </Wrapper>
     );
   }

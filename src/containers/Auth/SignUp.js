@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import React, { Component } from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+// import { Formik, Form, Field } from "formik";
+// import * as Yup from "yup";
 
-import Input from '../../components/UI/Input/Input';
-import Button from '../../components/UI/Button/Button';
+import Input from "../../components/UI/Input/Input";
+import Button from "../../components/UI/Button/Button";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -14,7 +16,7 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const Form = styled.form`
+const StyledForm = styled.form`
   width: 50%;
   display: flex;
   flex-direction: column;
@@ -58,10 +60,15 @@ const Other = styled.div`
   }
 `;
 
+// const SignUpSchema = Yup.object().shape({
+//   email: Yup.string()
+//     .email("Invalid email.")
+//     .required("The email is required.")
+// });
 class SignUp extends Component {
   _handleChange = event => {
     const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
 
     this.setState({
@@ -78,7 +85,7 @@ class SignUp extends Component {
   render() {
     return (
       <Wrapper>
-        <Form onSubmit={this._handleSubmit}>
+        <StyledForm onSubmit={this._handleSubmit}>
           <H1>Sign up</H1>
           <Input
             placeholder="Email"
@@ -110,7 +117,7 @@ class SignUp extends Component {
               <p>Log in</p>
             </Link>
           </Other>
-        </Form>
+        </StyledForm>
       </Wrapper>
     );
   }

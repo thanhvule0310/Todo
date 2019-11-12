@@ -1,42 +1,51 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-const InputStyled = styled.input`
+const InputWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  position: relative;
+  margin-bottom: 3.5rem;
+  flex-direction: column;
+`;
+
+const StyledInput = styled.input`
+  padding: 1.2rem 2rem;
+  width: 100%;
+  background-color: var(--color-mainLight);
+  color: var(--color-white);
+  font-weight: 500;
+  font-size: 1.2rem;
+  border-radius: 2rem;
   border: none;
-  min-width: ${props => (props.size === 'small' ? '50%' : '100%')};
-  min-height: 4rem;
-  display: inline-block;
-  background-color: var(--color-textBox);
-  padding: 1rem;
-  box-sizing: border-box;
-  border-radius: 0.5rem;
-  transition: all 0.2s;
-  font-weight: 300;
-  font-size: 1.6rem;
-  color: var(--color-text-lighter);
-  transition: all 0.2s;
-
-  &::-webkit-input-placeholder {
-    font-weight: 300;
-    font-size: 1.6rem;
-  }
-
-  &:not(:last-child) {
-    margin-bottom: 4rem;
+  &::placeholder {
+    color: var(--color-white);
   }
 `;
 
-export default class Input extends Component {
-  render() {
-    const { name, type, size, placeholder, _handleChange } = this.props;
-    return (
-      <InputStyled
-        name={name}
-        placeholder={placeholder}
-        size={size}
-        type={type}
-        onChange={_handleChange}
-      />
-    );
-  }
-}
+const Error = styled.div`
+  color: var(--color-errorRed);
+  visibility: ${({ show }) => (show ? "visible" : "hidden")};
+  opacity: ${({ show }) => (show ? "1" : "0")};
+  transform: translateY(${({ show }) => (show ? "20px" : "10px")});
+  transition: all 0.1s;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 0rem 2rem;
+  font-weight: 500;
+  font-size: 1.2rem;
+`;
+
+const Input = ({ field, form: { touched, errors }, ...props }) => {
+  return (
+    <InputWrapper>
+      <StyledInput {...field} {...props} />
+      <Error show={errors[field.name] && touched[field.name]}>
+        {errors[field.name]}
+      </Error>
+    </InputWrapper>
+  );
+};
+
+export default Input;

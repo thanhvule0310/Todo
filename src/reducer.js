@@ -1,13 +1,11 @@
-import { combineReducers } from 'redux';
-import { firebaseReducer } from 'react-redux-firebase';
+import { combineReducers } from "redux";
 
-import todo from './reducers/todo';
-import darkMode from './reducers/darkMode';
-import auth from './reducers/auth';
+import todos from "./reducers/todos";
+import darkMode from "./reducers/darkMode";
+import auth from "./reducers/auth";
 
 export default combineReducers({
-  todo,
+  todos,
   darkMode,
-  auth,
-  firebase: firebaseReducer
+  auth
 });
