@@ -5,21 +5,23 @@ const InputWrapper = styled.div`
   width: 100%;
   display: flex;
   position: relative;
-  margin-bottom: 3.5rem;
   flex-direction: column;
+  &:not(:last-child) {
+    margin-bottom: 4rem;
+  }
 `;
 
 const StyledInput = styled.input`
   padding: 1.2rem 2rem;
   width: 100%;
-  background-color: var(--color-mainLight);
-  color: var(--color-white);
+  background-color: var(--color-textBox);
+  color: var(--color-text-lighter);
   font-weight: 500;
   font-size: 1.2rem;
-  border-radius: 2rem;
+  border-radius: 0.5rem;
   border: none;
   &::placeholder {
-    color: var(--color-white);
+    color: var(--color-text-lighter);
   }
 `;
 

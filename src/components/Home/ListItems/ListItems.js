@@ -19,9 +19,10 @@ const Wrapper = styled.div`
   font-size: 2rem;
 `;
 
-const FormStyled = styled(Form)`
+const StyledForm = styled(Form)`
   display: flex;
 `;
+
 export default class ListItems extends Component {
   todoSchema = Yup.object().shape({
     text: Yup.string()
@@ -50,17 +51,25 @@ export default class ListItems extends Component {
             {item.text}
           </ListItem>
         ))}
-        <Formik
-          initialValues={{ text: "" }}
-          validationSchema={this.todoSchema}
-          onSubmit={this._handleSubmit}
-        ></Formik>
-        {({ isSubmitting, isValid }) => (
-          <FormStyled>
-            <Field placeholder="Add task" type="text" component={Input} />
-            <AddButton type="submit">+</AddButton>
-          </FormStyled>
-        )}
+        <div style={{ "padding-top": "5rem" }}>
+          <Formik
+            initialValues={{ text: "" }}
+            validationSchema={this.todoSchema}
+            onSubmit={this._handleSubmit}
+          >
+            {({ isSubmitting, isValid }) => (
+              <StyledForm>
+                <Field
+                  placeholder="Add task"
+                  name="text"
+                  type="text"
+                  component={Input}
+                />
+                <AddButton type="submit">+</AddButton>
+              </StyledForm>
+            )}
+          </Formik>
+        </div>
       </Wrapper>
     );
   }

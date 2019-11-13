@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
+import React, { Component } from "react";
+import styled from "styled-components";
 
 const ButtonStyled = styled.button`
   box-sizing: border-box;
@@ -12,6 +12,7 @@ const ButtonStyled = styled.button`
   border: none;
   color: var(--color-mainLight);
   margin-left: -6rem;
+  z-index: 99;
 
   &:hover {
     transform: scale(1.2);
