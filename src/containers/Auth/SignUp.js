@@ -1,11 +1,15 @@
-import React, { Component } from "react";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
-// import { Formik, Form, Field } from "formik";
-// import * as Yup from "yup";
+import React, { Component } from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { connect } from 'react-redux';
 
-import Input from "../../components/UI/Input/Input";
-import Button from "../../components/UI/Button/Button";
+import Button from '../../components/UI/Button/Button';
+import Input from '../../components/UI/Input/Input';
+import Heading from '../../components/UI/Heading/Heading';
+import * as actions from '../../actions';
+import Message from '../../components/UI/Message/Message';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -16,19 +20,12 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const StyledForm = styled.form`
+const StyledForm = styled(Form)`
   width: 50%;
   display: flex;
   flex-direction: column;
   justify-items: center;
   align-items: center;
-`;
-
-const H1 = styled.h1`
-  font-size: 5rem;
-  padding-bottom: 5rem;
-  text-transform: uppercase;
-  color: var(--color-main);
 `;
 
 const Other = styled.div`
@@ -52,6 +49,7 @@ const Other = styled.div`
   h3 span {
     background: var(--color-white);
     padding: 0 10px;
+    width: 100%;
   }
 
   p {
@@ -60,67 +58,108 @@ const Other = styled.div`
   }
 `;
 
-// const SignUpSchema = Yup.object().shape({
-//   email: Yup.string()
-//     .email("Invalid email.")
-//     .required("The email is required.")
-// });
 class SignUp extends Component {
-  _handleChange = event => {
-    const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    const name = target.name;
-
-    this.setState({
-      [name]: value
-    });
-    console.log(event.target.value);
+  _handleSubmit = async (value, { setSubmitting }) => {
+    const { history } = this.props;
+    await this.props.signUp(value, history).then(() => {});
+    setSubmitting(false);
   };
 
-  _handleSubmit = event => {
-    event.preventDefault();
-    console.log(this.state);
-  };
-
+  loginSchema = Yup.object().shape({
+    name: Yup.string()
+      .required('Name is required.')
+      .max(20, 'Too long.'),
+    email: Yup.string()
+      .email('Invalid email.')
+      .required('The email is required.'),
+    password: Yup.string()
+      .required('Password is required.')
+      .min(8, 'Too short.')
+      .max(20, 'Too long.'),
+    passwordConfirm: Yup.string()
+      .oneOf([Yup.ref('password'), null], 'Passwords must match')
+      .required('Password confirm is required')
+  });
+  componentDidMount() {
+    this.props.cleanMessage();
+  }
   render() {
+    const { loading, error } = this.props;
+
     return (
       <Wrapper>
-        <StyledForm onSubmit={this._handleSubmit}>
-          <H1>Sign up</H1>
-          <Input
-            placeholder="Email"
-            size="small"
-            type="email"
-            name="email"
-            _handleChange={this._handleChange}
-          />
-          <Input
-            placeholder="Password"
-            size="small"
-            type="password"
-            name="password"
-            _handleChange={this._handleChange}
-          />
-          <Input
-            placeholder="Retype password"
-            size="small"
-            type="password"
-            name="repassword"
-            _handleChange={this._handleChange}
-          />
-          <Button type="submit">Sign up</Button>
-          <Other>
-            <h3>
-              <span>Or</span>
-            </h3>
-            <Link to="/signin">
-              <p>Log in</p>
-            </Link>
-          </Other>
-        </StyledForm>
+        <Formik
+          initialValues={{
+            name: '',
+            email: '',
+            password: '',
+            passwordConfirm: ''
+          }}
+          validationSchema={this.loginSchema}
+          onSubmit={this._handleSubmit}
+        >
+          {({ isSubmitting, isValid }) => (
+            <StyledForm>
+              <Heading size="h1" bold="true">
+                Sign up
+              </Heading>
+              <Field
+                type="text"
+                name="name"
+                placeholder="Your name..."
+                component={Input}
+              />
+              <Field
+                type="email"
+                name="email"
+                placeholder="Your email..."
+                component={Input}
+              />
+              <Field
+                type="password"
+                name="password"
+                placeholder="Your password..."
+                component={Input}
+              />
+              <Field
+                type="password"
+                name="passwordConfirm"
+                placeholder="Retype password..."
+                component={Input}
+              />
+              <Button
+                disabled={!isValid || isSubmitting}
+                type="submit"
+                loading={loading ? 'Creating...' : null}
+              >
+                Create account
+              </Button>
+              <Message error show={error ? true : false}>
+                {error}
+              </Message>
+              <Other>
+                <h3>
+                  <span>Or</span>
+                </h3>
+                <Link to="/signin">
+                  <p>Sign in</p>
+                </Link>
+              </Other>
+            </StyledForm>
+          )}
+        </Formik>
       </Wrapper>
     );
   }
 }
 
-export default SignUp;
+const mapStateToProps = ({ auth }) => ({
+  loading: auth.loading,
+  error: auth.error
+});
+
+const mapDispatchToProps = {
+  signUp: actions.signUp,
+  cleanMessage: actions.cleanMessage
+};
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

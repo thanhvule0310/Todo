@@ -9,6 +9,7 @@ const theme = {
     textBoxColor: '#e4e3e9',
     whiteColor: '#fff',
     errorRed: '#ff5757',
+    successColor: '#00e073',
     shadow: 'rgba(0,0,0,.2)',
     whiteGray: '#f3f2f8',
     badgeColor: '#DC97A5',

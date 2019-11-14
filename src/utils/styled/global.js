@@ -31,6 +31,7 @@ export default createGlobalStyle`
     --color-textBox: ${props => props.theme.colors.textBoxColor};
     --color-badge: ${props => props.theme.colors.badgeColor};
     --color-green: ${props => props.theme.colors.colorGreen};
+    --color-success: ${props => props.theme.colors.successColor};
     @media ${props => props.theme.mediaQueries.small} {
       font-size: 60%;
     }

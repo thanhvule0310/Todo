@@ -1,20 +1,20 @@
-import React, { Component } from "react";
-import { ThemeProvider } from "styled-components";
+import React, { Component } from 'react';
+import { ThemeProvider } from 'styled-components';
 
-import Aux from "../Auxilary/Auxilary";
-import Toolbar from "../../components/Toolbar/Toolbar";
-import lightTheme from "../../utils/styled/lightTheme";
-import darkTheme from "../../utils/styled/darkTheme";
-import GlobalStyles from "../../utils/styled/global";
-import { connect } from "react-redux";
+import Aux from '../Auxilary/Auxilary';
+import Toolbar from '../../components/Toolbar/Toolbar';
+import lightTheme from '../../utils/styled/lightTheme';
+import darkTheme from '../../utils/styled/darkTheme';
+import GlobalStyles from '../../utils/styled/global';
+import { connect } from 'react-redux';
 
 class Layout extends Component {
   render() {
-    const { isDark } = this.props;
+    const { isDark, loggedId } = this.props;
     return (
       <Aux>
         <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
-          <Toolbar />
+          <Toolbar loggedId={loggedId} />
           <main>{this.props.children}</main>
           <GlobalStyles />
         </ThemeProvider>
@@ -23,8 +23,9 @@ class Layout extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  isDark: state.darkMode.isDark
+const mapStateToProps = ({ darkMode, firebase }) => ({
+  isDark: darkMode.isDark,
+  loggedId: firebase.auth
 });
 
 export default connect(mapStateToProps, null)(Layout);

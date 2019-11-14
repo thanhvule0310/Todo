@@ -17,12 +17,12 @@ const Header = styled.header`
   box-shadow: 0 1.5rem 4rem var(--shadow);
 `;
 
-const Toolbar = props => (
+const Toolbar = ({ loggedId }) => (
   <Header>
     <Link to="/home/all">
       <Logo />
     </Link>
-    <NavigationItems />
+    <NavigationItems loggedId={loggedId} />
     <Toggle />
   </Header>
 );

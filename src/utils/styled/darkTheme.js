@@ -1,18 +1,19 @@
 const theme = {
   colors: {
-    main: "#ffffff",
-    mainDark: "#383B51",
-    mainLight: "#c2e8ce",
-    mainLighter: "#2f82b8",
-    textColor: "#f8f8f8",
-    textColorLighter: "#858489",
-    textBoxColor: "#525252",
-    whiteColor: "#313131",
-    errorRed: "#ec625f",
-    shadow: "rgba(0,0,0,.2)",
-    whiteGray: "#414141",
-    badgeColor: "#ec625f",
-    colorGreen: "#7C9299"
+    main: '#ffffff',
+    mainDark: '#383B51',
+    mainLight: '#c2e8ce',
+    mainLighter: '#2f82b8',
+    textColor: '#f8f8f8',
+    textColorLighter: '#858489',
+    textBoxColor: '#525252',
+    whiteColor: '#313131',
+    errorRed: '#ec625f',
+    successColor: '#00e073',
+    shadow: 'rgba(0,0,0,.2)',
+    whiteGray: '#414141',
+    badgeColor: '#ec625f',
+    colorGreen: '#7C9299'
   },
 
   mediaQueries: {

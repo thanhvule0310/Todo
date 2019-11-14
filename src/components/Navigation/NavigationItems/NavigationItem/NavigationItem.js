@@ -22,7 +22,11 @@ const NavLinkStyled = styled(NavLink)`
 export default class NavigationItem extends Component {
   render() {
     return (
-      <NavLinkStyled exact to={this.props.to}>
+      <NavLinkStyled
+        exact
+        activeStyle={{ fontWeight: 'bold' }}
+        to={this.props.to}
+      >
         {this.props.children}
       </NavLinkStyled>
     );
