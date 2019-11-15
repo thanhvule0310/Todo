@@ -1,1 +1,10 @@
-export { signUp, signOut, signIn, cleanMessage } from './auth';
+export {
+  signUp,
+  signOut,
+  signIn,
+  cleanMessage,
+  vertifyEmail,
+  recoveryPassword
+} from './auth';
+
+export { toogleDarkMode } from './darkMode';

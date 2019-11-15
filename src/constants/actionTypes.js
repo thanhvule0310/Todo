@@ -9,3 +9,11 @@ export const AUTH_FAIL = 'AUTH_FAIL';
 export const AUTH_LOGOUT = 'AUTH_LOGOUT';
 
 export const CLEAN_MESSAGE = 'CLEAN_MESSAGE';
+
+export const VERTIFY_START = 'VERTIFY_START';
+export const VERTIFY_SUCCESS = 'VERTIFY_SUCCESS';
+export const VERTIFY_FAIL = 'VERTIFY_FAIL';
+
+export const RECOVERY_START = 'RECOVERY_START';
+export const RECOVERY_SUCCESS = 'RECOVERY_SUCCESS';
+export const RECOVERY_FAIL = 'RECOVERY_FAIL';

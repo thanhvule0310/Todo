@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
-import * as actionTypes from '../../../constants/actionTypes';
+import * as actions from '../../../actions';
 
 const CheckBoxLabel = styled.label`
   outline: 0;
@@ -52,43 +52,26 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-class Toggle extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { isDark: this.props.isDark };
-  }
+export const Toggle = ({ isDark, toggleDarkMode }) => {
+  return (
+    <Wrapper>
+      <CheckBox
+        id="checkbox"
+        type="checkbox"
+        checked={isDark}
+        onChange={() => toggleDarkMode()}
+      />
+      <CheckBoxLabel htmlFor="checkbox" />
+    </Wrapper>
+  );
+};
 
-  _handleToggle = () => {
-    this.props.onToggleClick();
-    this.setState({ isDark: !this.props.isDark });
-  };
-
-  render() {
-    const { isDark } = this.state;
-
-    return (
-      <Wrapper>
-        <CheckBox
-          id="checkbox"
-          type="checkbox"
-          checked={isDark}
-          onChange={this._handleToggle}
-        />
-        <CheckBoxLabel htmlFor="checkbox" />
-      </Wrapper>
-    );
-  }
-}
-
-const mapStateToProps = state => ({
-  isDark: state.darkMode.isDark
+const mapStateToProps = ({ darkMode }) => ({
+  isDark: darkMode.isDark
 });
 
-const mapDispatchToProps = dispatch => ({
-  onToggleClick: () => dispatch({ type: actionTypes.TOGGLE_DARKMODE })
-});
+const mapDispatchToProps = {
+  toggleDarkMode: actions.toogleDarkMode
+};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Toggle);
+export default connect(mapStateToProps, mapDispatchToProps)(Toggle);

@@ -29,7 +29,7 @@ const StyledForm = styled(Form)`
 `;
 
 const Other = styled.div`
-  width: 30%;
+  width: 50%;
   text-align: center;
   margin-top: 2rem;
   padding: 2rem;
@@ -55,6 +55,16 @@ const Other = styled.div`
   p {
     color: var(--color-main);
     font-size: 1.6rem;
+  }
+`;
+
+const StyledLink = styled(Link)`
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--color-main);
+  display: inline-block;
+  &:not(:last-child) {
+    padding-bottom: 2rem;
   }
 `;
 
@@ -114,12 +124,13 @@ class SignIn extends Component {
                 {error}
               </Message>
               <Other>
+                <StyledLink to="/recover-password">Forgor Password</StyledLink>
                 <h3>
                   <span>Or</span>
                 </h3>
-                <Link to="/signup">
+                <StyledLink to="/signup">
                   <p>Sign up</p>
-                </Link>
+                </StyledLink>
               </Other>
             </StyledForm>
           )}

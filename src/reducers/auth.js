@@ -3,7 +3,12 @@ import { updateObject } from '../utils/utility';
 
 const initialState = {
   error: null,
-  loading: false
+  loading: false,
+  verifyEmail: {
+    error: null,
+    loading: false
+  },
+  recoveryPassword: { error: null, loading: false }
 };
 
 const _authStart = (state, action) => {
@@ -19,7 +24,60 @@ const _authEnd = (state, action) => {
   return updateObject(state, { loading: false });
 };
 const _cleanMessage = (state, action) => {
-  return updateObject(state, { error: null, loading: false });
+  return updateObject(state, {
+    error: null,
+    loading: false,
+    verifyEmail: { ...state.verifyEmail, loading: false, error: null },
+    recoveryPassword: { ...state.recoveryPassword, loading: false, error: null }
+  });
+};
+
+const _verifyStart = (state, action) => {
+  return updateObject(state, {
+    verifyEmail: { ...state.verifyEmail, loading: true }
+  });
+};
+
+const _verifySuccess = (state, action) => {
+  return updateObject(state, {
+    verifyEmail: { ...state.verifyEmail, loading: false, error: false }
+  });
+};
+
+const _verifyFail = (state, action) => {
+  return updateObject(state, {
+    recoveryEmail: {
+      ...state.verifyEmail,
+      loading: false,
+      error: action.payload
+    }
+  });
+};
+
+const _recoveryStart = (state, action) => {
+  return updateObject(state, {
+    recoveryPassword: { ...state.recoveryPassword, loading: true }
+  });
+};
+
+const _recoverySuccess = (state, action) => {
+  return updateObject(state, {
+    recoveryPassword: {
+      ...state.recoveryPassword,
+      loading: false,
+      error: false
+    }
+  });
+};
+
+const _recoveryFail = (state, action) => {
+  return updateObject(state, {
+    recoveryPassword: {
+      ...state.recoveryPassword,
+      loading: false,
+      error: action.payload
+    }
+  });
 };
 
 const reducer = (state = initialState, action) => {
@@ -34,6 +92,18 @@ const reducer = (state = initialState, action) => {
       return _authEnd(state, action);
     case actionTypes.CLEAN_MESSAGE:
       return _cleanMessage(state, action);
+    case actionTypes.VERTIFY_START:
+      return _verifyStart(state, action);
+    case actionTypes.VERTIFY_SUCCESS:
+      return _verifySuccess(state, action);
+    case actionTypes.VERTIFY_FAIL:
+      return _verifyFail(state, action);
+    case actionTypes.RECOVERY_START:
+      return _recoveryStart(state, action);
+    case actionTypes.RECOVERY_SUCCESS:
+      return _recoverySuccess(state, action);
+    case actionTypes.RECOVERY_FAIL:
+      return _recoveryFail(state, action);
     default:
       return state;
   }

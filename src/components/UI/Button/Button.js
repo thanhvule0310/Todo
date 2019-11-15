@@ -9,10 +9,12 @@ const ButtonStyled = styled.button`
   font-size: 1.2rem;
   font-weight: 200;
   border: none;
-  color: var(--color-white);
-  background-color: var(--color-mainLight);
   text-align: center;
   text-transform: uppercase;
+  color: ${({ color }) =>
+    color === 'white' ? 'var(--color-mainLight)' : 'var(--color-white)'};
+  background-color: ${({ color }) =>
+    color === 'white' ? 'var(--color-white)' : 'var(--color-mainLight)'};
   &:hover {
     transform: translateY(-3px);
   }

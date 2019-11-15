@@ -1,4 +1,5 @@
 import * as actionTypes from '../constants/actionTypes';
+
 //* Signup
 export const signUp = (data, history) => async (
   dispatch,
@@ -14,6 +15,9 @@ export const signUp = (data, history) => async (
       .auth()
       .createUserWithEmailAndPassword(email, password);
 
+    //? Send Verify Email
+    const user = firebase.auth().currentUser;
+    await user.sendEmailVerification();
     await firestore
       .collection('users')
       .doc(res.user.uid)
@@ -49,18 +53,14 @@ export const signIn = (data, history) => async (
   }
   dispatch({ type: actionTypes.AUTH_END });
 };
+
 //* Logout
 
-export const signOut = history => async (
-  dispatch,
-  getState,
-  { getFirebase }
-) => {
+export const signOut = () => async (dispatch, getState, { getFirebase }) => {
   const firebase = getFirebase();
   try {
     await firebase.auth().signOut();
     await localStorage.removeItem('token');
-    history.push('/signin');
   } catch (err) {
     console.log(err.message);
   }
@@ -70,3 +70,39 @@ export const signOut = history => async (
 export const cleanMessage = () => ({
   type: actionTypes.CLEAN_MESSAGE
 });
+
+//* Vertify Email
+
+export const vertifyEmail = () => async (
+  dispatch,
+  getState,
+  { getFirebase }
+) => {
+  dispatch({ type: actionTypes.VERTIFY_START });
+  const firebase = getFirebase();
+  try {
+    const user = firebase.auth().currentUser;
+    await user.sendEmailVerification();
+    dispatch({ type: actionTypes.VERTIFY_SUCCESS });
+  } catch (err) {
+    dispatch({ type: actionTypes.VERTIFY_FAIL, payload: err.message });
+  }
+};
+
+//* Recovery Password
+
+export const recoveryPassword = data => async (
+  dispatch,
+  getState,
+  { getFirebase }
+) => {
+  dispatch({ type: actionTypes.RECOVERY_START });
+  const firebase = getFirebase();
+  try {
+    const { email } = data;
+    await firebase.auth().sendPasswordResetEmail(email);
+    dispatch({ type: actionTypes.RECOVERY_SUCCESS });
+  } catch (err) {
+    dispatch({ type: actionTypes.RECOVERY_FAIL, payload: err.message });
+  }
+};
