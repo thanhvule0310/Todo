@@ -8,6 +8,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import store from './store';
 import Loader from './components/UI/Loader/Loader';
+import GlobalTheme from './hoc/Styled/GlobalTheme';
 
 const root = document.getElementById('root');
 
@@ -30,9 +31,11 @@ ReactDOM.render(
 store.firebaseAuthIsReady.then(() => {
   ReactDOM.render(
     <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <GlobalTheme>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </GlobalTheme>
     </Provider>,
     root
   );
