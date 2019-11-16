@@ -29,7 +29,7 @@ const Container = styled.div`
   align-items: center;
   flex-direction: column;
   img {
-    width: 10rem;
+    width: 30rem;
     padding: 2rem;
   }
 

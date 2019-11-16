@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import styled from "styled-components";
-import { NavLink } from "react-router-dom";
+import React, { Component } from 'react';
+import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
 
 const Ul = styled.ul`
   display: grid;
-  grid-gap: 4rem;
+  grid-gap: 2rem;
   grid-template-rows: min-content min-content;
   grid-template-columns: 1fr 1fr;
   justify-items: center;
@@ -24,6 +24,10 @@ const Li = styled.li`
   display: inline-block;
   width: 100%;
   height: auto;
+
+  &:first-child {
+    grid-column: 1 / -1;
+  }
 `;
 
 const NavLinkStyled = styled(NavLink)`
@@ -89,12 +93,12 @@ const Badge = styled.span`
 `;
 
 const activeStyled = {
-  border: "2px solid var(--color-green)"
+  border: '2px solid var(--color-green)'
 };
 
 export default class Menu extends Component {
   render() {
-    const { all, importance, finished, unFinish } = this.props.count;
+    const { all, finished, unFinish } = this.props.count;
     return (
       <div>
         <Ul>
@@ -103,18 +107,6 @@ export default class Menu extends Component {
               <Head>
                 <H1>All task</H1>
                 <Badge>{all}</Badge>
-              </Head>
-            </NavLinkStyled>
-          </Li>
-          <Li>
-            <NavLinkStyled
-              exact
-              to="/home/importance"
-              activeStyle={activeStyled}
-            >
-              <Head>
-                <H1>Importance</H1>
-                <Badge>{importance}</Badge>
               </Head>
             </NavLinkStyled>
           </Li>

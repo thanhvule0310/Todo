@@ -1,11 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Formik, Form, Field } from 'formik';
-import * as Yup from 'yup';
 
 import ListItem from './ListItem/ListItem';
-import Input from '../../UI/Input/Input';
-import AddButton from '../../UI/Button/AddButton';
+import AddTodo from './AddTodo/AddTodo';
 
 const Wrapper = styled.div`
   grid-column: 1 / -1;
@@ -19,48 +16,17 @@ const Wrapper = styled.div`
   font-size: 2rem;
 `;
 
-const StyledForm = styled(Form)`
-  display: flex;
-`;
-
-const todoSchema = Yup.object().shape({
-  text: Yup.string()
-    .required('Task name is required.')
-    .min(6, 'Too short.')
-    .max(100, 'Too long.')
-});
-
-export const ListItems = ({ todos }) => {
+const ListItems = ({ todos }) => {
   return (
     <Wrapper>
-      {todos.map(item => (
-        <ListItem
-          key={item._id}
-          isFinish={item.isFinish}
-          isImportance={item.isImportance}
-        >
-          {item.text}
-        </ListItem>
-      ))}
-      <div style={{ paddingTop: '5rem' }}>
-        <Formik
-          initialValues={{ text: '' }}
-          validationSchema={todoSchema}
-          // onSubmit={}
-        >
-          {({ isSubmitting, isValid }) => (
-            <StyledForm>
-              <Field
-                placeholder="Add task"
-                name="text"
-                type="text"
-                component={Input}
-              />
-              <AddButton type="submit">+</AddButton>
-            </StyledForm>
-          )}
-        </Formik>
-      </div>
+      {todos
+        ? todos.map(item => (
+            <ListItem key={item._id} isFinish={item.isFinish}>
+              {item.todo}
+            </ListItem>
+          ))
+        : null}
+      <AddTodo />
     </Wrapper>
   );
 };

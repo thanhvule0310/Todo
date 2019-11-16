@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { FaTrash, FaPen } from 'react-icons/fa';
+
+import Button from '../../../UI/Button/ModifyButon';
 
 const ItemStyled = styled.div`
   width: 100%;
@@ -39,10 +42,9 @@ const Span = styled.span`
   padding-left: 2rem;
   cursor: pointer;
 `;
-
 export default class ListItem extends Component {
   render() {
-    const { children, isFinish, isImportance } = this.props;
+    const { children, isFinish } = this.props;
     return (
       <ItemStyled>
         {isFinish ? (
@@ -63,11 +65,15 @@ export default class ListItem extends Component {
             <Span>{children}</Span>
           </Container>
         )}
-        {isImportance ? (
-          <img src="/star_checked.svg" alt="Importance checked"></img>
-        ) : (
-          <img src="/star_uncheck.svg" alt="Importance uncheck"></img>
-        )}
+
+        <Container>
+          <Button>
+            <FaPen />
+          </Button>
+          <Button color="red">
+            <FaTrash />
+          </Button>
+        </Container>
       </ItemStyled>
     );
   }

@@ -1,9 +1,11 @@
-import React, { Component } from "react";
-import styled from "styled-components";
-import { connect } from "react-redux";
+import React from 'react';
+import styled from 'styled-components';
+import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
 
-import GroupItems from "../../components/Home/GroupItems/GroupItems";
-import ListItems from "../../components/Home/ListItems/ListItems";
+import GroupItems from '../../components/Home/GroupItems/GroupItems';
+import ListItems from '../../components/Home/ListItems/ListItems';
 
 const Wrapper = styled.div`
   display: grid;
@@ -20,65 +22,65 @@ const Wrapper = styled.div`
   }
 `;
 
-class Home extends Component {
-  _getDataAfterFilter = (Data, type) => {
+const _getDataAfterFilter = (Data, type) => {
+  if (Data) {
     switch (type) {
-      case "finished":
+      case 'finished':
         return Data.filter(task => task.isFinish);
-      case "unfinished":
+      case 'unfinished':
         return Data.filter(task => !task.isFinish);
-      case "importance":
-        return Data.filter(task => task.isImportance);
       default:
         return Data;
     }
-  };
+  }
+};
 
-  _sortData = Data => {
-    return Data.reverse().sort(function(a, b) {
-      if (a.isFinish > b.isFinish) {
-        return 1;
-      }
-      if (b.isFinish > a.isFinish) {
-        return -1;
-      }
-      return 0;
-    });
-  };
-
-  _getCountTasks = todos => {
+const _getCountTasks = todos => {
+  if (todos) {
     const all = todos.length;
-    const importance = todos.filter(task => task.isImportance).length;
     const finished = todos.filter(task => task.isFinish).length;
     const unFinish = todos.filter(task => !task.isFinish).length;
-    return { all, importance, finished, unFinish };
-  };
-
-  render() {
-    const { todos } = this.props;
-    const count = this._getCountTasks(todos);
-    const {
-      match: {
-        params: { type }
-      }
-    } = this.props;
-
-    const Data = this._getDataAfterFilter(todos, type);
-    const DataAfterSort = this._sortData(Data);
-
-    return (
-      <Wrapper>
-        <GroupItems count={count} />
-        <main>
-          <ListItems type={type} todos={DataAfterSort} />
-        </main>
-      </Wrapper>
-    );
+    return { all, finished, unFinish };
+  } else return { all: 0, finished: 0, unFinish: 0 };
+};
+const Home = ({
+  todos,
+  match: {
+    params: { type }
+  },
+  userId
+}) => {
+  let content;
+  if (!todos) {
+    console.log('Nothing');
+  } else if (!todos[userId] || !todos[userId].todos) {
+    console.log('No todo');
+  } else if (todos[userId].todos.length === 0) {
+    console.log('No todo');
+  } else {
+    content = todos[userId].todos.slice(0).reverse();
   }
-}
 
-const mapStateToProps = state => ({
-  todos: state.todos.todos
+  const Data = _getDataAfterFilter(content, type);
+  const count = _getCountTasks(content);
+  return (
+    <Wrapper>
+      <GroupItems count={count} />
+      <main>
+        <ListItems type={type} todos={Data} />
+      </main>
+    </Wrapper>
+  );
+};
+
+const mapStateToProps = ({ firebase, firestore }) => ({
+  userId: firebase.auth.uid,
+  todos: firestore.data.todos
 });
 
-export default connect(mapStateToProps, null)(Home);
+const mapDispatchToProps = {};
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  firestoreConnect(props => [`todos/${props.userId}`])
+)(Home);

@@ -22,9 +22,13 @@ const Wrapper = styled.div`
 
 //TODO: Check Firebase Auth
 ReactDOM.render(
-  <Wrapper>
-    <Loader />
-  </Wrapper>,
+  <Provider store={store}>
+    <GlobalTheme>
+      <Wrapper>
+        <Loader />
+      </Wrapper>
+    </GlobalTheme>
+  </Provider>,
   root
 );
 

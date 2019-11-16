@@ -1,21 +1,21 @@
-import * as actions from './actionTypes';
+import * as actionTypes from '../constants/actionTypes';
 
 // Add a todo
 export const addTodo = data => async (dispatch, getState, { getFirestore }) => {
   const firestore = getFirestore();
   const userId = getState().firebase.auth.uid;
-  dispatch({ type: actions.ADD_TODO_START });
+  dispatch({ type: actionTypes.ADD_TODO_START });
   try {
     const res = await firestore
       .collection('todos')
       .doc(userId)
       .get();
     const newTodo = {
-      id: new Date().valueOf(),
-      todo: data.todo
+      _id: new Date().valueOf(),
+      todo: data.todo,
+      isFinish: false
     };
     if (!res.data()) {
-      console.log('got here');
       firestore
         .collection('todos')
         .doc(userId)
@@ -30,9 +30,8 @@ export const addTodo = data => async (dispatch, getState, { getFirestore }) => {
           todos: [...res.data().todos, newTodo]
         });
     }
-    dispatch({ type: actions.ADD_TODO_SUCCESS });
-    return true;
+    dispatch({ type: actionTypes.ADD_TODO_SUCCESS });
   } catch (err) {
-    dispatch({ type: actions.ADD_TODO_FAIL, payload: err.message });
+    dispatch({ type: actionTypes.ADD_TODO_FAIL, payload: err.message });
   }
 };

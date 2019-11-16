@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 const ButtonStyled = styled.button`
   box-sizing: border-box;
@@ -24,14 +24,14 @@ const ButtonStyled = styled.button`
   &:active {
     transform: scale(1);
   }
+  &:disabled {
+    cursor: not-allowed;
+    background-color: #777777;
+  }
 `;
 
-class AddButton extends Component {
-  render() {
-    return (
-      <ButtonStyled type={this.props.type}>{this.props.children}</ButtonStyled>
-    );
-  }
-}
+const AddButton = ({ disabled, loading, children, ...rest }) => {
+  return <ButtonStyled {...rest}>{loading ? loading : children}</ButtonStyled>;
+};
 
 export default AddButton;
