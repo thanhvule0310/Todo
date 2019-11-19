@@ -19,8 +19,12 @@ const Button = styled.button`
   }
 `;
 
-const ModifyButon = ({ children, color }) => {
-  return <Button color={color}>{children}</Button>;
+const ModifyButon = ({ children, color, onClick }) => {
+  return (
+    <Button onClick={onClick} color={color}>
+      {children}
+    </Button>
+  );
 };
 
 export default ModifyButon;

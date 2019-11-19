@@ -25,8 +25,8 @@ const AddTodo = ({ addTodo, loading, error }) => {
       <Formik
         initialValues={{ todo: '' }}
         validationSchema={todoSchema}
-        onSubmit={async (values, { setSubmitting, resetForm }) => {
-          await addTodo(values);
+        onSubmit={(values, { setSubmitting, resetForm }) => {
+          addTodo(values);
           setSubmitting(false);
           resetForm({});
         }}

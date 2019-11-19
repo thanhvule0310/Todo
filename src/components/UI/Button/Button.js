@@ -11,10 +11,23 @@ const ButtonStyled = styled.button`
   border: none;
   text-align: center;
   text-transform: uppercase;
+  margin: ${({ margin }) => (margin ? '2rem' : null)};
+  background-color: ${({ color }) => {
+    switch (color) {
+      case 'white':
+        return 'var(--color-white)';
+      case 'danger':
+        return `var(--color-errorRed)`;
+      case 'success':
+        return `var(--color-success)`;
+      case 'warning':
+        return `yellow`;
+      default:
+        return 'var(--color-mainLight)';
+    }
+  }};
   color: ${({ color }) =>
     color === 'white' ? 'var(--color-mainLight)' : 'var(--color-white)'};
-  background-color: ${({ color }) =>
-    color === 'white' ? 'var(--color-white)' : 'var(--color-mainLight)'};
   &:hover {
     transform: translateY(-3px);
   }

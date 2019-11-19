@@ -21,7 +21,7 @@ const ListItems = ({ todos }) => {
     <Wrapper>
       {todos
         ? todos.map(item => (
-            <ListItem key={item._id} isFinish={item.isFinish}>
+            <ListItem key={item._id} id={item._id} isFinish={item.isFinish}>
               {item.todo}
             </ListItem>
           ))

@@ -9,4 +9,4 @@ export {
 
 export { toogleDarkMode } from './darkMode';
 
-export { addTodo } from './todos';
+export { addTodo, deleteTodo, updateTodo } from './todos';

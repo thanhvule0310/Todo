@@ -36,7 +36,7 @@ const _getDataAfterFilter = (Data, type) => {
 };
 
 const _getCountTasks = todos => {
-  if (todos) {
+  if (todos || todos !== undefined) {
     const all = todos.length;
     const finished = todos.filter(task => task.isFinish).length;
     const unFinish = todos.filter(task => !task.isFinish).length;
@@ -51,13 +51,7 @@ const Home = ({
   userId
 }) => {
   let content;
-  if (!todos) {
-    console.log('Nothing');
-  } else if (!todos[userId] || !todos[userId].todos) {
-    console.log('No todo');
-  } else if (todos[userId].todos.length === 0) {
-    console.log('No todo');
-  } else {
+  if (todos || todos !== undefined) {
     content = todos[userId].todos.slice(0).reverse();
   }
 

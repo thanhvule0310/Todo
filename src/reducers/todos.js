@@ -18,6 +18,10 @@ const initialState = {
   deleteTodo: {
     error: null,
     loading: false
+  },
+  updateTodo: {
+    error: null,
+    loading: false
   }
 };
 
@@ -31,14 +35,21 @@ const _addFail = (state, action) => {
   return updateObject(state, { loading: false, error: action.payload });
 };
 const _deleteStart = (state, action) => {
-  return updateObject(state.deleteTodo, { loading: true });
+  return updateObject(state, {
+    deleteTodo: { ...state.deleteTodo, loading: true }
+  });
 };
 const _deleteSuccess = (state, action) => {
-  return updateObject(state, { loading: true });
+  return updateObject(state, {
+    deleteTodo: { ...state.deleteTodo, loading: false, error: false }
+  });
 };
 const _deleteFail = (state, action) => {
-  return updateObject(state, { loading: true });
+  return updateObject(state, {
+    deleteTodo: { ...state.deleteTodo, loading: false, error: action.payload }
+  });
 };
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.ADD_TODO_START:

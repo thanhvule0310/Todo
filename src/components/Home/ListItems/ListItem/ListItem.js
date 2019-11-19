@@ -1,8 +1,17 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FaTrash, FaPen } from 'react-icons/fa';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { connect } from 'react-redux';
+import * as actions from '../../../../actions';
 
-import Button from '../../../UI/Button/ModifyButon';
+import ModifyButton from '../../../UI/Button/ModifyButon';
+import Modal from '../../../UI/Modal/Modal';
+import Heading from '../../../UI/Heading/Heading';
+import Button from '../../../UI/Button/Button';
+import Input from '../../../UI/Input/Input';
+import Message from '../../../UI/Message/Message';
 
 const ItemStyled = styled.div`
   width: 100%;
@@ -42,39 +51,163 @@ const Span = styled.span`
   padding-left: 2rem;
   cursor: pointer;
 `;
-export default class ListItem extends Component {
-  render() {
-    const { children, isFinish } = this.props;
-    return (
-      <ItemStyled>
-        {isFinish ? (
-          <Container>
-            <img src="/task_finished.svg" alt="Importance"></img>
-            <Span
-              style={{
-                textDecoration: 'line-through',
-                color: 'var(--color-text-lighter)'
-              }}
+
+const StyledForm = styled(Form)`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const todoSchema = Yup.object().shape({
+  todo: Yup.string()
+    .required('Task name is required.')
+    .min(6, 'Too short.')
+    .max(100, 'Too long.')
+});
+
+const ListItem = ({
+  id,
+  children,
+  isFinish,
+  deleteTodo,
+  errorDelete,
+  loadingDelete,
+  updateTodo,
+  errorUpdate,
+  loadingUpdate
+}) => {
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+
+  return (
+    <div>
+      {/* Editting Modal */}
+
+      <Modal
+        opened={isEditing}
+        close={() => {
+          setIsEditing(false);
+        }}
+      >
+        <Heading size="h2" color="white">
+          Editing
+        </Heading>
+        <Heading size="h4" color="white">
+          Old: {children}
+        </Heading>
+        <Formik
+          initialValues={{ todo: children }}
+          validationSchema={todoSchema}
+          onSubmit={values => {
+            updateTodo(id, values);
+            setIsEditing(false);
+          }}
+        >
+          <StyledForm>
+            <Field name="todo" type="text" component={Input} />
+            <Message error show={errorUpdate}>
+              {errorUpdate}
+            </Message>
+            <Button
+              color="success"
+              margin
+              type="submit"
+              disabled={loadingUpdate}
+              loading={loadingUpdate ? 'Updating...' : null}
             >
-              {children}
-            </Span>
-          </Container>
-        ) : (
-          <Container>
-            <img src="/task_unfinished.svg" alt="Importance"></img>
-            <Span>{children}</Span>
-          </Container>
-        )}
+              Update
+            </Button>
+            <Button
+              color="white"
+              type="button"
+              onClick={() => setIsEditing(false)}
+            >
+              Close
+            </Button>
+          </StyledForm>
+        </Formik>
+      </Modal>
+
+      {/* Delete Modal */}
+      <Modal
+        opened={isDeleting}
+        close={() => {
+          setIsDeleting(false);
+        }}
+      >
+        <Heading size="h2" color="white">
+          Are your sure want to delete this items?
+        </Heading>
+        <Heading size="h4" color="white">
+          {children}
+        </Heading>
+        <Message error show={errorDelete}>
+          {errorDelete}
+        </Message>
+        <Button
+          color="danger"
+          margin
+          disabled={loadingDelete}
+          onClick={() => {
+            deleteTodo(id);
+            setIsDeleting(false);
+          }}
+          loading={loadingDelete ? 'Deleting...' : null}
+        >
+          Yes, delete
+        </Button>
+        <Button color="white" onClick={() => setIsDeleting(false)}>
+          Close
+        </Button>
+      </Modal>
+
+      <ItemStyled>
+        <Container>
+          <img
+            onClick={() => updateTodo(id, { isFinish: !isFinish })}
+            src={isFinish ? '/task_finished.svg' : '/task_unfinished.svg'}
+            alt={isFinish ? 'Finish' : 'UnFinish'}
+          ></img>
+          <Span
+            onClick={() => updateTodo(id, { isFinish: !isFinish })}
+            style={
+              isFinish
+                ? {
+                    textDecoration: 'line-through',
+                    color: 'var(--color-text-lighter)'
+                  }
+                : null
+            }
+          >
+            {children}
+          </Span>
+        </Container>
 
         <Container>
-          <Button>
+          <ModifyButton onClick={() => setIsEditing(true)}>
             <FaPen />
-          </Button>
-          <Button color="red">
+          </ModifyButton>
+          <ModifyButton color="red" onClick={() => setIsDeleting(true)}>
             <FaTrash />
-          </Button>
+          </ModifyButton>
         </Container>
       </ItemStyled>
-    );
-  }
-}
+    </div>
+  );
+};
+
+const mapStateToProps = ({ todos }) => ({
+  errorDelete: todos.deleteTodo.error,
+  loadingDelete: todos.deleteTodo.loading,
+  errorUpdate: todos.error,
+  loadingUpdate: todos.loading
+});
+
+const mapDispatchToProps = {
+  deleteTodo: actions.deleteTodo,
+  updateTodo: actions.updateTodo
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ListItem);
