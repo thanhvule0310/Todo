@@ -21,26 +21,20 @@ const Wrapper = styled.div`
   }
 `;
 
-const _getDataAfterFilter = (Data, type) => {
-  if (Data) {
-    switch (type) {
-      case 'finished':
-        return Data.filter(task => task.isFinish);
-      case 'unfinished':
-        return Data.filter(task => !task.isFinish);
-      default:
-        return Data;
-    }
-  }
-};
-
-const _getCountTasks = todos => {
-  if (todos || todos !== undefined) {
+const _getCountTasks = (data, userId) => {
+  if (!data) {
+    return { all: 0, finished: 0, unFinish: 0 };
+  } else if (!data[userId] || !data[userId].todos) {
+    return { all: 0, finished: 0, unFinish: 0 };
+  } else if (data[userId].todos.length === 0) {
+    return { all: 0, finished: 0, unFinish: 0 };
+  } else {
+    const todos = data[userId].todos.slice(0);
     const all = todos.length;
     const finished = todos.filter(task => task.isFinish).length;
     const unFinish = todos.filter(task => !task.isFinish).length;
     return { all, finished, unFinish };
-  } else return { all: 0, finished: 0, unFinish: 0 };
+  }
 };
 const Home = ({
   todos,
@@ -49,18 +43,12 @@ const Home = ({
   },
   userId
 }) => {
-  let content;
-  if (todos || todos !== undefined) {
-    content = todos[userId].todos.slice(0).reverse();
-  }
-
-  const Data = _getDataAfterFilter(content, type);
-  const count = _getCountTasks(content);
+  const count = _getCountTasks(todos, userId);
   return (
     <Wrapper>
       <GroupItems count={count} />
       <main>
-        <ListItems type={type} todos={Data} />
+        <ListItems type={type} todos={todos} userId={userId} />
       </main>
     </Wrapper>
   );
