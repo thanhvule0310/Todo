@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
-import * as Yup from 'yup';
 import { connect } from 'react-redux';
 
 import Button from '../../components/UI/Button/Button';
@@ -10,6 +9,7 @@ import Input from '../../components/UI/Input/Input';
 import Heading from '../../components/UI/Heading/Heading';
 import * as actions from '../../actions';
 import Message from '../../components/UI/Message/Message';
+import * as Schema from '../../utils/Yup/Schema';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -65,24 +65,10 @@ class SignUp extends Component {
     setSubmitting(false);
   };
 
-  loginSchema = Yup.object().shape({
-    name: Yup.string()
-      .required('Name is required.')
-      .max(20, 'Too long.'),
-    email: Yup.string()
-      .email('Invalid email.')
-      .required('The email is required.'),
-    password: Yup.string()
-      .required('Password is required.')
-      .min(8, 'Too short.')
-      .max(20, 'Too long.'),
-    passwordConfirm: Yup.string()
-      .oneOf([Yup.ref('password'), null], 'Passwords must match')
-      .required('Password confirm is required')
-  });
   componentDidMount() {
     this.props.cleanMessage();
   }
+
   render() {
     const { loading, error } = this.props;
 
@@ -95,7 +81,7 @@ class SignUp extends Component {
             password: '',
             passwordConfirm: ''
           }}
-          validationSchema={this.loginSchema}
+          validationSchema={Schema.signUp}
           onSubmit={this._handleSubmit}
         >
           {({ isSubmitting, isValid }) => (

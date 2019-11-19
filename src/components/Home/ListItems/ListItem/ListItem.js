@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FaTrash, FaPen } from 'react-icons/fa';
 import { Formik, Form, Field } from 'formik';
-import * as Yup from 'yup';
 import { connect } from 'react-redux';
 import * as actions from '../../../../actions';
 
@@ -12,6 +11,7 @@ import Heading from '../../../UI/Heading/Heading';
 import Button from '../../../UI/Button/Button';
 import Input from '../../../UI/Input/Input';
 import Message from '../../../UI/Message/Message';
+import * as Schema from '../../../../utils/Yup/Schema';
 
 const ItemStyled = styled.div`
   width: 100%;
@@ -60,13 +60,6 @@ const StyledForm = styled(Form)`
   justify-content: center;
 `;
 
-const todoSchema = Yup.object().shape({
-  todo: Yup.string()
-    .required('Task name is required.')
-    .min(6, 'Too short.')
-    .max(100, 'Too long.')
-});
-
 const ListItem = ({
   id,
   children,
@@ -99,7 +92,7 @@ const ListItem = ({
         </Heading>
         <Formik
           initialValues={{ todo: children }}
-          validationSchema={todoSchema}
+          validationSchema={Schema.todo}
           onSubmit={values => {
             updateTodo(id, values);
             setIsEditing(false);

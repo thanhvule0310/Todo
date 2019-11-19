@@ -2,19 +2,9 @@ import * as actionTypes from '../constants/actionTypes';
 import { updateObject } from '../utils/utility';
 
 const initialState = {
-  todos: [
-    { _id: 1, text: 'Do home work', isImportance: true, isFinish: false },
-    { _id: 2, text: 'Play chess', isImportance: false, isFinish: true },
-    { _id: 3, text: 'Go to work', isImportance: true, isFinish: true },
-    { _id: 4, text: 'Take out gabage', isImportance: false, isFinish: false },
-    { _id: 5, text: 'Push to github', isImportance: true, isFinish: true },
-    { _id: 6, text: 'Turn off my pc', isImportance: true, isFinish: false },
-    { _id: 7, text: 'Drop windows 10', isImportance: true, isFinish: false },
-    { _id: 8, text: 'Newest', isImportance: true, isFinish: false },
-    { _id: 9, text: 'Haha that is', isImportance: true, isFinish: false }
-  ],
   error: null,
   loading: false,
+  addTodo: { error: null, loading: false },
   deleteTodo: {
     error: null,
     loading: false
@@ -26,14 +16,21 @@ const initialState = {
 };
 
 const _addStart = (state, action) => {
-  return updateObject(state, { loading: true });
+  return updateObject(state, {
+    addTodo: { ...state.addTodo, loading: true }
+  });
 };
 const _addSuccess = (state, action) => {
-  return updateObject(state, { loading: false, error: false });
+  return updateObject(state, {
+    addTodo: { ...state.addTodo, loading: false, error: false }
+  });
 };
 const _addFail = (state, action) => {
-  return updateObject(state, { loading: false, error: action.payload });
+  return updateObject(state, {
+    addTodo: { ...state.addTodo, loading: false, error: action.payload }
+  });
 };
+
 const _deleteStart = (state, action) => {
   return updateObject(state, {
     deleteTodo: { ...state.deleteTodo, loading: true }
@@ -64,6 +61,7 @@ const reducer = (state = initialState, action) => {
       return _deleteSuccess(state, action);
     case actionTypes.DELETE_TODO_FAIL:
       return _deleteFail(state, action);
+
     default:
       return state;
   }

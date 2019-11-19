@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
-import * as Yup from 'yup';
 import { connect } from 'react-redux';
 
 import Button from '../../components/UI/Button/Button';
@@ -10,6 +9,7 @@ import Input from '../../components/UI/Input/Input';
 import Heading from '../../components/UI/Heading/Heading';
 import * as actions from '../../actions';
 import Message from '../../components/UI/Message/Message';
+import * as Schema from '../../utils/Yup/Schema';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -75,13 +75,6 @@ class SignIn extends Component {
     setSubmitting(false);
   };
 
-  loginSchema = Yup.object().shape({
-    email: Yup.string()
-      .email('Invalid email.')
-      .required('The email is required.'),
-    password: Yup.string().required('Password is required.')
-  });
-
   componentDidMount() {
     this.props.cleanMessage();
   }
@@ -93,7 +86,7 @@ class SignIn extends Component {
       <Wrapper>
         <Formik
           initialValues={{ email: '', password: '' }}
-          validationSchema={this.loginSchema}
+          validationSchema={Schema.signIn}
           onSubmit={this._handleSubmit}
         >
           {({ isSubmitting, isValid }) => (

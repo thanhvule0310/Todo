@@ -14,7 +14,6 @@ const Wrapper = styled.div`
   justify-content: center;
   grid-gap: 3rem;
   padding: 2rem;
-
   @media ${props => props.theme.mediaQueries.medium} {
     padding: 2rem;
     grid-template-columns: 100%;

@@ -1,30 +1,23 @@
 import React from 'react';
 import { Formik, Form, Field } from 'formik';
-import * as Yup from 'yup';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
 import Input from '../../../UI/Input/Input';
 import AddButton from '../../../UI/Button/AddButton';
 import * as actions from '../../../../actions';
+import * as Schema from '../../../../utils/Yup/Schema';
 
 const StyledForm = styled(Form)`
   display: flex;
 `;
-
-const todoSchema = Yup.object().shape({
-  todo: Yup.string()
-    .required('Task name is required.')
-    .min(6, 'Too short.')
-    .max(100, 'Too long.')
-});
 
 const AddTodo = ({ addTodo, loading, error }) => {
   return (
     <div style={{ paddingTop: '5rem' }}>
       <Formik
         initialValues={{ todo: '' }}
-        validationSchema={todoSchema}
+        validationSchema={Schema.todo}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           addTodo(values);
           setSubmitting(false);
@@ -54,8 +47,8 @@ const AddTodo = ({ addTodo, loading, error }) => {
 };
 
 const mapStateToProps = ({ todos }) => ({
-  error: todos.error,
-  loading: todos.loading
+  error: todos.addTodo.error,
+  loading: todos.addTodo.loading
 });
 
 const mapDispatchToProps = {
