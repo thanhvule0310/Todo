@@ -69,7 +69,7 @@ const RecoverPassword = ({
         <Form>
           <Wrapper>
             <Container>
-              <img src="/key.svg" alt="Key"></img>
+              <img src="svg/key.svg" alt="Key"></img>
               <Heading size="h1">Recover your password</Heading>
               <Heading size="h4">
                 Type in your e-mail to recover your password
