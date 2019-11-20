@@ -43,7 +43,7 @@ const VerifyEmail = ({ sendVerification, error, loading, cleanMessage }) => {
   return (
     <Wrapper>
       <Container>
-        <img src="/email.svg" alt="Email"></img>
+        <img src="Todo/email.svg" alt="Email"></img>
         <Heading bold size="h1">
           Verify your email
         </Heading>
