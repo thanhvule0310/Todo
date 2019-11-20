@@ -160,7 +160,7 @@ const ListItem = ({
         <Container>
           <img
             onClick={() => updateTodo(id, { isFinish: !isFinish })}
-            src={isFinish ? '/task_finished.svg' : '/task_unfinished.svg'}
+            src={isFinish ? 'svg/task_finished.svg' : 'svg/task_unfinished.svg'}
             alt={isFinish ? 'Finish' : 'UnFinish'}
           ></img>
           <Span
