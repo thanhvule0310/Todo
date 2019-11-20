@@ -1,5 +1,7 @@
 # Todo App with DarkMode, Firebase Auth
 
+## [Check it live here](http://thanhvule0310.github.io/Todo)
+
 ![Thumbnail](1.png)
 ![Thumbnail2](2.png)
 ![Thumbnail3](3.png)
