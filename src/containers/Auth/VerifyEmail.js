@@ -30,7 +30,7 @@ const Container = styled.div`
     padding: 2rem;
   }
 
-  @media ${props => props.theme.mediaQueries.medium} {
+  @media ${(props) => props.theme.mediaQueries.medium} {
     width: 100%;
     height: 100%;
     border-radius: 0;
@@ -43,18 +43,12 @@ const VerifyEmail = ({ sendVerification, error, loading, cleanMessage }) => {
   return (
     <Wrapper>
       <Container>
-        <img src="Todo/email.svg" alt="Email"></img>
+        <img src="/email.svg" alt="Email"></img>
         <Heading bold size="h1">
           Verify your email
         </Heading>
-        <Heading size="h4">
-          Go to your email inbox and verify your email.
-        </Heading>
-        <Button
-          disabled={loading}
-          loading={loading ? 'Sending email...' : null}
-          onClick={() => sendVerification()}
-        >
+        <Heading size="h4">Go to your email inbox and verify your email.</Heading>
+        <Button disabled={loading} loading={loading ? 'Sending email...' : null} onClick={() => sendVerification()}>
           Re-send verify email
         </Button>
         <Message error show={error ? true : false}>
@@ -70,12 +64,12 @@ const VerifyEmail = ({ sendVerification, error, loading, cleanMessage }) => {
 
 const mapStateToProps = ({ auth }) => ({
   loading: auth.verifyEmail.loading,
-  error: auth.verifyEmail.error
+  error: auth.verifyEmail.error,
 });
 
 const mapDispatchToProps = {
   sendVerification: actions.vertifyEmail,
-  cleanMessage: actions.cleanMessage
+  cleanMessage: actions.cleanMessage,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(VerifyEmail);

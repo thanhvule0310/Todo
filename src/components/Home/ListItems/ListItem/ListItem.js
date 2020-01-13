@@ -69,7 +69,7 @@ const ListItem = ({
   loadingDelete,
   updateTodo,
   errorUpdate,
-  loadingUpdate
+  loadingUpdate,
 }) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -93,7 +93,7 @@ const ListItem = ({
         <Formik
           initialValues={{ todo: children }}
           validationSchema={Schema.todo}
-          onSubmit={values => {
+          onSubmit={(values) => {
             updateTodo(id, values);
             setIsEditing(false);
           }}
@@ -112,11 +112,7 @@ const ListItem = ({
             >
               Update
             </Button>
-            <Button
-              color="white"
-              type="button"
-              onClick={() => setIsEditing(false)}
-            >
+            <Button color="white" type="button" onClick={() => setIsEditing(false)}>
               Close
             </Button>
           </StyledForm>
@@ -160,9 +156,7 @@ const ListItem = ({
         <Container>
           <img
             onClick={() => updateTodo(id, { isFinish: !isFinish })}
-            src={
-              isFinish ? 'Todo/task_finished.svg' : 'Todo/task_unfinished.svg'
-            }
+            src={isFinish ? '/task_finished.svg' : '/task_unfinished.svg'}
             alt={isFinish ? 'Finish' : 'UnFinish'}
           ></img>
           <Span
@@ -171,7 +165,7 @@ const ListItem = ({
               isFinish
                 ? {
                     textDecoration: 'line-through',
-                    color: 'var(--color-text-lighter)'
+                    color: 'var(--color-text-lighter)',
                   }
                 : null
             }
@@ -197,12 +191,12 @@ const mapStateToProps = ({ todos }) => ({
   errorDelete: todos.deleteTodo.error,
   loadingDelete: todos.deleteTodo.loading,
   errorUpdate: todos.error,
-  loadingUpdate: todos.loading
+  loadingUpdate: todos.loading,
 });
 
 const mapDispatchToProps = {
   deleteTodo: actions.deleteTodo,
-  updateTodo: actions.updateTodo
+  updateTodo: actions.updateTodo,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListItem);

@@ -33,7 +33,7 @@ const Container = styled.div`
     padding: 2rem;
   }
 
-  @media ${props => props.theme.mediaQueries.medium} {
+  @media ${(props) => props.theme.mediaQueries.medium} {
     width: 100%;
     height: 100%;
     border-radius: 0;
@@ -42,15 +42,10 @@ const Container = styled.div`
 const emailSchema = Yup.object().shape({
   email: Yup.string()
     .email('Invalid email.')
-    .required('The email is required.')
+    .required('The email is required.'),
 });
 
-const RecoverPassword = ({
-  loading,
-  error,
-  cleanMessage,
-  sendEmailRecover
-}) => {
+const RecoverPassword = ({ loading, error, cleanMessage, sendEmailRecover }) => {
   //TODO: Clean old message
   useEffect(() => {
     cleanMessage();
@@ -69,22 +64,11 @@ const RecoverPassword = ({
         <Form>
           <Wrapper>
             <Container>
-              <img src="Todo/key.svg" alt="Key"></img>
+              <img src="/key.svg" alt="Key"></img>
               <Heading size="h1">Recover your password</Heading>
-              <Heading size="h4">
-                Type in your e-mail to recover your password
-              </Heading>
-              <Field
-                type="email"
-                name="email"
-                placeholder="Your email..."
-                component={Input}
-              />
-              <Button
-                disabled={loading}
-                loading={loading ? 'Sending recover email...' : null}
-                type="submit"
-              >
+              <Heading size="h4">Type in your e-mail to recover your password</Heading>
+              <Field type="email" name="email" placeholder="Your email..." component={Input} />
+              <Button disabled={loading} loading={loading ? 'Sending recover email...' : null} type="submit">
                 Send recover email
               </Button>
               <Message error show={error ? true : false}>
@@ -103,12 +87,12 @@ const RecoverPassword = ({
 
 const mapStateToProps = ({ auth }) => ({
   loading: auth.recoveryPassword.loading,
-  error: auth.recoveryPassword.error
+  error: auth.recoveryPassword.error,
 });
 
 const mapDispatchToProps = {
   sendEmailRecover: actions.recoveryPassword,
-  cleanMessage: actions.cleanMessage
+  cleanMessage: actions.cleanMessage,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RecoverPassword);
