@@ -40,7 +40,7 @@ export default createGlobalStyle`
     }
   }
   body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Lato', sans-serif;
     font-weight: 400;
     line-height: 1.6;
     background-color:var(--white-gray);
