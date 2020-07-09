@@ -1,7 +1,7 @@
 {
   "name": "todo-app",
   "version": "0.1.0",
-  "homepage": "https://thanhvule0310.github.io/Todo/",
+  "homepage": "https://react-todoapp-firebase.herokuapp.com/",
   "private": true,
   "dependencies": {
     "firebase": "^7.2.3",
