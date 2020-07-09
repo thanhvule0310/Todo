@@ -2,9 +2,14 @@
 
 ## [Check it live here](http://thanhvule0310.github.io/Todo)
 
-![Thumbnail](1.png)
-![Thumbnail2](2.png)
-![Thumbnail3](3.png)
+Test account
+
+```
+email: thanhvule0310@gmail.com
+password: 11111111
+```
+
+![Thumbnail](1.png) ![Thumbnail2](2.png) ![Thumbnail3](3.png)
 
 ### Installing
 

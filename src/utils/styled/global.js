@@ -41,6 +41,8 @@ export default createGlobalStyle`
   }
   body {
     font-family: 'Lato', sans-serif;
+    background-image: url('/bg.jpg');
+  background-size: cover;
     font-weight: 400;
     line-height: 1.6;
     background-color:var(--white-gray);

@@ -19,7 +19,7 @@ const Header = styled.header`
 
 const Toolbar = ({ loggedId }) => (
   <Header>
-    <Link to="/home/all">
+    <Link to='/home/all'>
       <Logo />
     </Link>
     <NavigationItems loggedId={loggedId} />

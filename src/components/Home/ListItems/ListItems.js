@@ -42,7 +42,7 @@ const ListItems = ({ todos, userId, type }) => {
   } else if (!todos[userId] || !todos[userId].todos) {
     content = (
       <Wrapper>
-        <Heading color="white" size="h2">
+        <Heading color='white' size='h2'>
           You have no todos!
         </Heading>
       </Wrapper>
@@ -50,7 +50,7 @@ const ListItems = ({ todos, userId, type }) => {
   } else if (todos[userId].todos.length === 0) {
     content = (
       <Wrapper>
-        <Heading color="white" size="h2">
+        <Heading color='white' size='h2'>
           You have no todos!
         </Heading>
       </Wrapper>

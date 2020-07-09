@@ -35,20 +35,21 @@ const NavLinkStyled = styled(NavLink)`
   padding: 2rem;
   display: inline-block;
   width: 100%;
-  height: 2rem;
+  height: 5rem;
   border-radius: 0.5rem;
   box-shadow: 0 1.5rem 4rem var(--shadow);
   cursor: pointer;
   transition: all 0.2s;
   box-sizing: border-box;
+  border: 2px solid transparent;
 
-  &:hover {
+  /* &:hover {
     transform: translateY(-0.5rem);
-  }
+  } */
 
-  &:active {
+  /* &:active {
     transform: translateY(-0.2rem);
-  }
+  } */
 
   @media ${props => props.theme.mediaQueries.medium} {
     &:hover {
@@ -82,7 +83,9 @@ const Badge = styled.span`
   font-size: 2rem;
   font-weight: 900;
   background-color: var(--color-badge);
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   @media ${props => props.theme.mediaQueries.medium} {
     width: 2.5rem;
@@ -103,7 +106,7 @@ export default class Menu extends Component {
       <div>
         <Ul>
           <Li>
-            <NavLinkStyled exact to="/home/all" activeStyle={activeStyled}>
+            <NavLinkStyled exact to='/home/all' activeStyle={activeStyled}>
               <Head>
                 <H1>All task</H1>
                 <Badge>{all}</Badge>
@@ -111,7 +114,7 @@ export default class Menu extends Component {
             </NavLinkStyled>
           </Li>
           <Li>
-            <NavLinkStyled exact to="/home/finished" activeStyle={activeStyled}>
+            <NavLinkStyled exact to='/home/finished' activeStyle={activeStyled}>
               <Head>
                 <H1>Finished</H1>
                 <Badge>{finished}</Badge>
@@ -121,7 +124,7 @@ export default class Menu extends Component {
           <Li>
             <NavLinkStyled
               exact
-              to="/home/unfinished"
+              to='/home/unfinished'
               activeStyle={activeStyled}
             >
               <Head>

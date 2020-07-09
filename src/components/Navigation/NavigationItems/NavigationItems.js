@@ -11,15 +11,6 @@ const Li = styled.li`
   position: relative;
   &:not(:last-child) {
     padding-right: 7rem;
-    &::after {
-      content: '/';
-      color: var(--color-main);
-      font-size: 1.6rem;
-      font-weight: 900;
-      position: absolute;
-      top: 0%;
-      right: calc(7rem / 2);
-    }
 
     @media ${props => props.theme.mediaQueries.medium} {
       padding-right: 2rem;
@@ -34,13 +25,13 @@ const NavigationItems = ({ loggedId }) => {
   let links = (
     <Ul>
       <Li>
-        <NavigationItem to="/home/all">home</NavigationItem>
+        <NavigationItem to='/home/all'>home</NavigationItem>
       </Li>
       <Li>
-        <NavigationItem to="/signin">login</NavigationItem>
+        <NavigationItem to='/signin'>login</NavigationItem>
       </Li>
       <Li>
-        <NavigationItem to="/signup">sign up</NavigationItem>
+        <NavigationItem to='/signup'>sign up</NavigationItem>
       </Li>
     </Ul>
   );
@@ -49,10 +40,10 @@ const NavigationItems = ({ loggedId }) => {
     links = (
       <Ul>
         <Li>
-          <NavigationItem to="/home/all">home</NavigationItem>
+          <NavigationItem to='/home/all'>home</NavigationItem>
         </Li>
         <Li>
-          <NavigationItem to="/logout">Logout</NavigationItem>
+          <NavigationItem to='/logout'>Logout</NavigationItem>
         </Li>
       </Ul>
     );

@@ -8,6 +8,7 @@ import GroupItems from '../../components/Home/GroupItems/GroupItems';
 import ListItems from '../../components/Home/ListItems/ListItems';
 
 const Wrapper = styled.div`
+  height: calc(100vh - 5rem);
   display: grid;
   grid-template-rows: min-content 1fr;
   grid-template-columns: 70%;
