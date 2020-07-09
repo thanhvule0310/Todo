@@ -1,6 +1,6 @@
 # Todo App with DarkMode, Firebase Auth
 
-## [Check it live here](http://thanhvule0310.github.io/Todo)
+## [Check it live here](https://react-todoapp-firebase.herokuapp.com/)
 
 Test account
 
